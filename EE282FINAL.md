@@ -123,6 +123,8 @@ MM_INS= male moderate drinker ileum nostim
 
 MH_INS= male heavy drinker ileum nostim
 
+[PCA_ileum](https://github.com/sloanlewis/EE282/blob/master/PCA_group_rlog_ileum.pdf)
+
 *To look at all gut sections only nostim samples to see if there are any innate differences in transcriptional profiles of lamina propria lymphocytes from different sections, controls and drinkers combined:*
 
 ```
@@ -142,6 +144,7 @@ plotPCA(vsd)
 dev.off()
 
 ```
+[PCA_group](https://github.com/sloanlewis/EE282/blob/master/PCA_group_rlog_bysection.pdf)
 
 *For the purposes of this project, I am setting a high cutoff on the counts file to make a heatmap with fewer genes and without running DEG analysis first. I am looking for expression differences in these highly expressed genes in the drinkers versus controls in the ileum(nostims)*
 
@@ -189,3 +192,4 @@ heatmap.2(as.matrix(f1), col=rev(hmcol), scale="row", key=T, keysize=1.5, densit
 dev.off()
 
 ```
+[heatmap](https://github.com/sloanlewis/EE282/blob/master/NA_clustered_heatmap.pdf)
