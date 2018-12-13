@@ -1,10 +1,10 @@
-#EE282 FINAL PROJECT
-##Background
+# EE282 FINAL PROJECT
+## Background
 The premise of this project is to discover the effects of chronic alcohol consumption on the mucosal immune system in the gut. We utilize a nonhuman primate model of voluntary ethanol self-administration where rhesus macaques have open access to a 4% w/v ethanol solution for 12 months. After these 12 months, the monkeys are necropsied and biopsies from the gut are taken. We isolated mononuclear cells from the lamina propria of the duodenum, jejunum, ileum, and colon of control (n=4) and ethanol-drinking (n=8) rhesus macaques. Once these cells were isolated, they were plated and stimulated with PMA/ionomycin for 16 hours. The supernatants were taken for luminex analysis and the cells for RNA-seq. We extracted RNA, built libraries and then multiplexed libraries were subjected to single-end 86 or 100 base pair sequencing using the Illumina NextSeq 500 (jejunal and ileal LPL) or HiSeq 4000 (duodenal and colonic LPL) platforms, respectively. This is the data I will be using for this project.
 
 Note: In the Messaoudi Lab, we use the UC Riverside HPCC so I will try to make everything run on the UCI cluster, but errors may be due to this.
 
-##Set-up
+## Set-up
 ```
 qrsh -q abio,free128,free88i,free72i,free32i,free64 -pe openmp 32
 #Create working directories for the final project
@@ -14,7 +14,7 @@ mkdir data results sequences
 
 ```
 
-##Get the data
+## Get the data
 Because it would be too much to transfer all 68 sequence data files, I will make symbolic links to 2 of the raw sequences in the sequences directory.
 
 ```
@@ -27,7 +27,7 @@ ll
 25787_un_ile_LPL.read1.fastq.gz -> /data/users/sloanal/Final_Sequences/25787_un_ile_LPL.read1.fastq.gz
 
 ```
-##Sequence quality check
+## Sequence quality check
 Run fastqc on the sequences to check their quality and see how much should be trimmed.
 
 ```
@@ -42,7 +42,7 @@ Check the fastqc report and make sure the sequences are of adequate quality. Thi
 Use this to determine how much needs to be trimmed off of each sequence.
 
 
-##Trimming
+## Trimming
 Sequences need to be trimmed to get rid of adapters added for library preparation and multiplexing.
 
 ```
@@ -55,7 +55,7 @@ fastqc *trimmed.fq.gz
 
 ```
 
-##Alignment to the macaca mulatta genome
+## Alignment to the macaca mulatta genome
 
 __Downloading:__
 
@@ -87,7 +87,7 @@ sum Macaca_mulatta.Mmul_8.0.1.94.gtf.gz
 I then ran the alignment using Dr. Girke's systemPipeR pipeline: https://www.bioconductor.org/packages/release/bioc/vignettes/systemPipeR/inst/doc/systemPipeRNAseq.pdf
 I will not go through the whole thing for this project as it is already published. After aligning the sequenced reads to the genome using Tophat, the mapped reads are counted using the annotation file. 
 
-##Data Plots
+## Data Plots
 I put my final counts and rpkm files as well as the targets file into the results folder to use for the following plots.
 
 __Principle Component Analysis: 2 ways__
@@ -123,7 +123,7 @@ MM_INS= male moderate drinker ileum nostim
 
 MH_INS= male heavy drinker ileum nostim
 
-[PCA_ileum](https://github.com/sloanlewis/EE282/blob/master/PCA_group_rlog_ileum.pdf)
+![PCA_ileum](https://github.com/sloanlewis/EE282/blob/master/PCA_group_rlog_ileum.pdf)
 
 *To look at all gut sections only nostim samples to see if there are any innate differences in transcriptional profiles of lamina propria lymphocytes from different sections, controls and drinkers combined:*
 
@@ -144,7 +144,7 @@ plotPCA(vsd)
 dev.off()
 
 ```
-[PCA_group](https://github.com/sloanlewis/EE282/blob/master/PCA_group_rlog_bysection.pdf)
+![PCA_group](https://github.com/sloanlewis/EE282/blob/master/PCA_group_rlog_bysection.pdf)
 
 *For the purposes of this project, I am setting a high cutoff on the counts file to make a heatmap with fewer genes and without running DEG analysis first. I am looking for expression differences in these highly expressed genes in the drinkers versus controls in the ileum(nostims)*
 
@@ -192,4 +192,4 @@ heatmap.2(as.matrix(f1), col=rev(hmcol), scale="row", key=T, keysize=1.5, densit
 dev.off()
 
 ```
-[heatmap](https://github.com/sloanlewis/EE282/blob/master/NA_clustered_heatmap.pdf)
+![heatmap](https://github.com/sloanlewis/EE282/blob/master/NA_clustered_heatmap.pdf)
